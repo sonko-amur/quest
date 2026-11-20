@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Квест СОНКО Амурской области</title>
+<style>
+:root{--primary:#2563eb;--bg:#f8fafc;--text:#1f2937;--muted:#6b7280;--border:#e5e7eb;--surface:#ffffff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;padding:16px;min-height:100vh}
+.container{max-width:600px;margin:0 auto}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.btn{display:block;width:100%;background:var(--primary);color:#fff;padding:14px 20px;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;margin-top:12px}
+.btn:active{background:#1d4ed8}
+.btn-ghost{background:transparent;color:var(--primary);border:1px solid var(--primary)}
+.muted{color:var(--muted);font-size:14px}
+.station-icon{font-size:52px;text-align:center;margin-bottom:8px}
+h1{font-size:22px;margin-bottom:8px;text-align:center}
+h3{font-size:18px;margin:12px 0}
+.opt{display:block;width:100%;text-align:left;padding:13px 14px;margin-top:10px;border:1.5px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);font-size:15px;cursor:pointer}
+.opt-selected{border-color:var(--primary);background:#eff6ff}
+.bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin:14px 0}
+.fill{height:100%;background:var(--primary);transition:width .3s}
+.row{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:4px}
+.code{font-family:monospace;font-size:20px;font-weight:700;letter-spacing:1px;text-align:center;padding:14px;background:#eff6ff;border:1px dashed var(--primary);border-radius:10px;margin:14px 0}
+.frags{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;margin-top:12px;font-size:14px;color:var(--muted);text-align:center}
+.frags b{color:var(--primary)}
+</style>
+</head>
+<body>
+<div class="container" id="app"></div>
+<script>
+const STATIONS=[{"icon":"🏆","title":"Гранты Губернатора Амурской области","desc":"6 вопросов о конкурсе грантов и поддержке проектов","frag":"Закон","qs":[["Кто является оператором конкурса «Гранты Губернатора»?",["АНО «ЦРГИ Амурской области»","Минюст России","Правительство РФ","Администрация города Благовещенска"],0],["Что получает победитель конкурса?",["Грант (субсидию) на реализацию проекта","Сертификат на обучение","Оборудование для офиса","Путёвку на форум"],0],["Кто подаёт заявку на конкурс?",["Сама НКО (её руководитель или представитель)","Любой гражданин","Только государственные учреждения","Только коммерческие компании"],0],["Что описывает заявка?",["Проект: цель, задачи, мероприятия, бюджет","Историю организации","Личные данные руководителя","Список волонтёров"],0],["Кто утверждает порядок проведения конкурса?",["Правительство Амурской области","Президент РФ","Минэкономразвития РФ","Городская дума"],0],["Кто помогает НКО на этапе подготовки заявки?",["Ресурсный центр (ЦРГИ АО)","Налоговая инспекция","Пенсионный фонд","Роспотребнадзор"],0]]},{"icon":"🤝","title":"СОНКО: кто они","desc":"6 вопросов о статусе и реестре социально ориентированных НКО","frag":"области","qs":[["Как расшифровывается СОНКО?",["Социально ориентированные некоммерческие организации","Союз общественных некоммерческих компаний","Сообщество общественных независимых коллективов","Служба общественных некоммерческих организаций"],0],["Каким законом регулируется статус СОНКО?",["Федеральный закон № 245-ФЗ","Налоговый кодекс РФ","Трудовой кодекс РФ","Закон о рекламе"],0],["Кто является оператором единого реестра СОНКО с 1 января 2022 года?",["Минэкономразвития России","Минюст России","Пенсионный фонд России","Минцифры России"],0],["Какой минимальный срок работы нужен НКО для статуса?",["Не менее одного года","Не менее трёх месяцев","Не менее пяти лет","Срок не важен"],0],["Что даёт статус СОНКО?",["Льготы и приоритет в конкурсах: доступ к грантам, субсидиям, поддержке","Освобождение от всех налогов","Право не сдавать отчётность","Автоматическое получение гранта"],0],["Как попасть в реестр СОНКО?",["Подать заявление и документы в уполномоченный орган области","Зарегистрироваться на Госуслугах","Отправить письмо на e-mail губернатора","Ничего не нужно — все НКО автоматически в реестре"],0]]},{"icon":"📜","title":"Закон о СОНКО: истинно или ложно","desc":"6 утверждений — выберите «Истинно» или «Ложно»","frag":"— это","qs":[["Политические партии можно включить в реестр СОНКО",["Ложно","Истинно"],0],["Реестр СОНКО размещён в открытом доступе",["Истинно","Ложно"],0],["Государственные учреждения могут получить статус СОНКО",["Ложно","Истинно"],0],["Организация обязана подтверждать соответствие критериям",["Истинно","Ложно"],0],["Статус СОНКО даёт иммунитет от проверок",["Ложно","Истинно"],0],["СОНКО вправе участвовать в конкурсах на гранты",["Истинно","Ложно"],0]]},{"icon":"💼","title":"Налоги, труд и отчётность","desc":"6 вопросов про отчётность, налоги и трудовые отношения","frag":"честно","qs":[["В какой орган НКО отчитывается о своей деятельности?",["В Минюст России (его территориальное управление)","В налоговую инспекцию","В администрацию города","В Роспотребнадзор"],0],["В какой срок подаётся отчёт в Минюст?",["До 15 апреля года, следующего за отчётным","До 31 декабря","До 1 марта","До 1 июня"],0],["Облагается ли грант налогом?",["Не облагается, если целевые средства использованы по назначению и подтверждены отчётом","Всегда облагается","Облагается только часть","Налог платит грантодатель"],0],["Деятельность сотрудника по трудовому договору в НКО оплачивается?",["Да, с уплатой НДФЛ и страховых взносов","Нет, только волонтёры","Оплачивается только из грантов","Только в коммерческих НКО"],0],["Кто контролирует расходование гранта?",["Грантодатель (оператор конкурса) и надзорные органы","Только сама НКО","Только банк","Никто не контролирует"],0],["Какими формами отчитываются по целевым средствам?",["ОН0001 и ОН0002","3-НДФЛ","Баланс и отчёт о прибылях","Форма 4-ФСС"],0]]},{"icon":"🌟","title":"Деятельность НКО","desc":"6 вопросов про волонтёрство, платформы и инструменты","frag":"всегда","qs":[["С какого возраста можно стать волонтёром?",["С 14 лет (до 18 лет — с согласия родителей)","С 18 лет","С 7 лет","Возраст не важен"],0],["Что такое краудфандинг?",["Сбор средств на проект от множества людей","Государственный грант","Банковский кредит","Взнос от одной компании"],0],["Что такое социальный заказ?",["Бюджетные средства на социально значимые услуги, полученные по конкурсу","Заказ товаров для офиса","Договор с волонтёрами","Заявка на грант"],0],["На какой платформе НКО собирают пожертвования онлайн?",["Добро.ру","Авито","Яндекс Карты","ВКонтакте"],0],["Что такое Общественная палата?",["Орган общественного контроля и диалога общества с властью","Суд для НКО","Налоговая служба","Министерство культуры"],0],["Что такое пресс-релиз?",["Официальное сообщение организации для СМИ о событии","Внутренний отчёт","Письмо руководителю","Рекламный буклет"],0]]},{"icon":"🏛️","title":"Наш ресурсный центр","desc":"5 вопросов про ЦРГИ и ПФКИ в Амурской области","frag":"и везде","qs":[["Где находится проектный офис ПФКИ в Благовещенске?",["В Амурской областной научной библиотеке им. Муравьёва-Амурского, ул. Ленина, 139","В здании администрации области","В центре «Мой бизнес»","В АГМА"],0],["Сколько лет исполнилось АНО «ЦРГИ АО» 5 октября 2026 года?",["4 года","3 года","5 лет","2 года"],0],["Каким документом создан Центр?",["Распоряжением Правительства Амурской области от 05.10.2022 № 555-р","Указом Президента РФ","Приказом Минздрава","Решением городской думы"],0],["Как расшифровывается ПФКИ?",["Президентский фонд культурных инициатив","Программа финансирования культурных идей","Партнёрство фондов культуры и искусства","Проект фонда культурных инициатив"],0],["Каким по счёту офисом в сети ПФКИ стал благовещенский?",["40-м в России (и 5-м на Дальнем Востоке)","1-м","10-м","25-м"],0]]}];
+function checksum(name){let s=0;const n=name.trim().toUpperCase();for(let i=0;i<n.length;i++){s=(s+n.charCodeAt(i)*(i+1))%100000}return s}
+function scoreLetters(score){const a=Math.floor(score/26),b=score%26;return String.fromCharCode(65+a)+String.fromCharCode(65+b)}
+function makeCode(name,score){return "AMUR-"+String(checksum(name)).padStart(5,"0")+"-"+scoreLetters(score)}
+let teamName="",station=0,qIdx=0,score=0;
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function totalQs(){return STATIONS.reduce((s,x)=>s+x.qs.length,0)}
+function answered(){return STATIONS.slice(0,station).reduce((s,x)=>s+x.qs.length,0)+qIdx}
+const app=document.getElementById("app");
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function welcome(){
+  teamName=prompt("Введите название команды (нужно для кода):")||"";
+  if(!teamName.trim()){alert("Название команды обязательно для формирования кода.");location.reload();return}
+  teamName=teamName.trim();
+  renderStationIntro();
+}
+function renderStationIntro(){
+  const st=STATIONS[station];
+  app.innerHTML=`<div class="card"><div class="station-icon">${st.icon}</div><h1>Станция ${station+1} из ${STATIONS.length}</h1><h3 style="text-align:center">${esc(st.title)}</h3><p class="muted" style="text-align:center">${esc(st.desc)}</p><button class="btn" onclick="renderQuestion()">Начать станцию</button></div>`;
+}
+function renderQuestion(){
+  const st=STATIONS[station],q=st.qs[qIdx];
+  const mixed=shuffle(q[1].map((t,i)=>({t,c:i===q[2]})));
+  app.innerHTML=`<div class="card"><div class="row"><span>Станция ${station+1}: ${esc(st.title)}</span><span>${answered()+1} из ${totalQs()}</span></div><div class="bar"><div class="fill" style="width:${answered()/totalQs()*100}%"></div></div><h3>${esc(q[0])}</h3>${mixed.map(o=>`<button class="opt" onclick="pick(this,${o.c})">${esc(o.t)}</button>`).join("")}</div>`;
+}
+function pick(btn,ok){
+  if(document.body.dataset.lock)return;
+  document.body.dataset.lock="1";
+  document.querySelectorAll(".opt").forEach(b=>b.disabled=true);
+  btn.classList.add("opt-selected");
+  if(ok)score+=2;
+  setTimeout(()=>{delete document.body.dataset.lock;next()},500);
+}
+function next(){
+  const st=STATIONS[station];
+  if(qIdx<st.qs.length-1){qIdx++;renderQuestion();return}
+  const allFrag=STATIONS.slice(0,station+1).map(s=>s.frag).join(" ");
+  if(station<STATIONS.length-1){
+    app.innerHTML=`<div class="card"><div class="station-icon">✨</div><h1>Станция пройдена!</h1><p style="text-align:center">Заработан фрагмент фразы: <b>${st.frag}</b></p><div class="frags">Собрано: <b>${esc(allFrag)}</b></div><button class="btn" onclick="station++;qIdx=0;renderStationIntro()">Следующая станция</button></div>`;
+  }else{renderFinal()}
+}
+function renderFinal(){
+  const code=makeCode(teamName,score);
+  window.__code=code;
+  app.innerHTML=`<div class="card"><div class="station-icon">🏁</div><h1>Квест пройден!</h1><p class="muted" style="text-align:center">Команда: <b>${esc(teamName)}</b></p><div class="code">${code}</div><p class="muted" style="text-align:center">Покажите этот код ведущему — он расшифрует результат в верификаторе.</p><button class="btn btn-ghost" onclick="copyCode()">📋 Скопировать код и команду</button><button class="btn" onclick="farewell()">✅ Завершить квест</button></div>`;
+}
+function copyCode(){
+  const text="Команда: "+teamName+" | Код: "+window.__code;
+  function ok(){alert("Скопировано:\n\n"+text)}
+  function fallback(){
+    const ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();
+    try{document.execCommand("copy");ok()}catch(e){window.prompt("Скопируйте вручную:",text)}
+    document.body.removeChild(ta);
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(ok).catch(fallback)}else fallback();
+}
+function farewell(){
+  app.innerHTML=`<div class="card"><div class="station-icon">👋</div><h1>Спасибо за участие!</h1><p class="muted" style="text-align:center">Квест завершён. До встречи на новых станциях!</p></div>`;
+}
+welcome();
+</script>
+</body>
+</html>
